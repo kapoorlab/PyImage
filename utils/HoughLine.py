@@ -117,7 +117,8 @@ def Correlation_plot(pointsA, pointsB,x_min,x_max,y_min,y_max, id):
           
      except IndexError:
             continue
-     ax.text(pointsB[i], pointsA[i], str(currentid)) 
+     if(x < x_max and x > x_min and y< y_max and y > y_min ):       
+      ax.text(pointsB[i], pointsA[i], str(currentid)) 
      ax.set_xlabel('Intensity')
      ax.set_ylabel('Thickness (um)')
     
