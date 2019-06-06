@@ -308,7 +308,6 @@ def MegaFit(membraneimage, image, N, Time_unit, Xcalibration,showaftertime, Fita
     
 
     
-    
     for i in range(0, len(Shift_Actin)):
       membraneimageGaussFit = Linescan(Shift_Membrane[i][0],Shift_Membrane[i][1], Fitaround, inisigmaguess)
        
@@ -346,8 +345,28 @@ def MegaFit(membraneimage, image, N, Time_unit, Xcalibration,showaftertime, Fita
         
  
     
- 
+    oneDMembrane = np.mean(Shift_Membrane, axis = 0)
+  
+    oneDActin = np.mean(Shift_Actin, axis = 0)
+    
+    plt.plot(oneDActin[0],oneDActin[1])
+    plt.plot(oneDMembrane[0],oneDMembrane[1])
+    plt.title('Final Mean Membrane-Actin Shifted')
+    
+    
+    
+    membraneimageGaussFit = Linescan(oneDMembrane[0],oneDMembrane[1], Fitaround, inisigmaguess)
+       
         
+    GaussFit = Linescan(oneDActin[0],oneDActin[1], Fitaround, inisigmaguess)
+    
+    
+    
+    CortexThickness = Cortex(membraneimageGaussFit,GaussFit,psf, 2)  
+    CortexThickness.get_h_i_c()
+    CortexThickness.plot_lss()
+    CortexThickness.plot_fits()
+    print("Final Answer : Thickness (nm), center cortex , cortical actin intensity (from fit)",1000*abs(CortexThickness.h), abs(CortexThickness.X_c), (CortexThickness.i_c))    
     
 def fit_func(x, a, sigma, mu, c ):
     """Definition of gaussian function used to fit linescan peaks.
